@@ -47,9 +47,12 @@ observedTrains.process('train', function(job, done){
 });
 
 function train(trainObj, done) {
-    /* se NON è ancora arrivato
-     * lo mette in coda di nuovo
-     */
+    /*TODO:
+        faccio chiamata http a servizio Ezio
+            metto l'oggetto ritornato nella seconda coda (quella per BL)
+            se il treno NON è arrivato lo metto anche nella prima
+    */
+
     var isArrivato = true;
     if(!isArrivato) {
         observedTrains.create('train', trainObj).save( function(err){
@@ -59,7 +62,7 @@ function train(trainObj, done) {
         });
     }
 
-    // aggiungo nell'altra coda tutto l'oggetto trainObj
+    // CODA PER BL aggiungo nell'altra coda tutto l'oggetto trainObj
     trainUpdates.create('train', trainObj).save( function(err){
         if( !err ) {
             console.log( trainObj.id );
