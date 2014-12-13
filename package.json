@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/pendolous/puller/issues"
   },
-  "homepage": "https://github.com/pendolous/puller"
+  "homepage": "https://github.com/pendolous/puller",
+  "dependencies": {
+    "kue": "~0.8.9"
+  }
 }
