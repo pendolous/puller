@@ -8,28 +8,21 @@ if (process.env.VCAP_SERVICES) {
         redis: {
             port: env['rediscloud'][0].credentials.port,
             host: env['rediscloud'][0].credentials.hostname,
-            auth: 'password',
-            options: {
-                auth_pass: env['rediscloud'][0].credentials.password
-            }
+            auth: env['rediscloud'][0].credentials.password
         }
     };
-    console.log('observed queue options: ');
-    console.log(redisObservedOptions.redis.host);
-    console.log(redisObservedOptions.redis.options.auth_pass);
+    // console.log('observed queue host: '+redisObservedOptions.redis.host +
+    //     ', password:' +redisObservedOptions.redis.options.auth_pass);
     redisUpdatesOptions = {
         redis: {
             port: env['rediscloud'][1].credentials.port,
             host: env['rediscloud'][1].credentials.hostname,
-            auth: 'password',
-            options: {
-                auth_pass: env['rediscloud'][1].credentials.password
-            }
+            auth: env['rediscloud'][1].credentials.password
         }
     };
-    console.log('observed updated options: ');
-    console.log(redisUpdatesOptions.redis.host);
-    console.log(redisUpdatesOptions.redis.options.auth_pass);
+    // console.log('observed updated options: ');
+    // console.log(redisUpdatesOptions.redis.host);
+    // console.log(redisUpdatesOptions.redis.options.auth_pass);
 } else {
     console.log('esecuzione locale');
     redisObservedOptions = {};
@@ -82,4 +75,12 @@ process.once('SIGTERM', function ( sig ) {
         process.exit( 0 );
     }, 5000 );
 });
+var port=process.env.VCAP_APP_PORT || 1337;
+var host=process.env.VCAP_APP_HOST || 'localhost';
+var http = require('http');
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Hello World\n');
+}).listen(port, host);
+console.log('Server running at http://127.0.0.1:1337/');
 
